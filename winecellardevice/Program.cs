@@ -135,6 +135,29 @@ namespace simulated_device
                 await Task.Delay(intervalInMilliseconds);
             }
         }
+        private static async Task OnDesiredPropertyChanged(TwinCollection desiredProperties, object userContext)
+        {
+            try
+            {
+                desiredHumidity = desiredProperties["humidity"];
+                desiredTemperature = desiredProperties["temperature"];
+                greenMessage("Setting desired humidity to " + desiredProperties["humidity"]);
+                greenMessage("Setting desired temperature to " + desiredProperties["temperature"]);
+
+                // Report the properties back to the IoT Hub.
+                var reportedProperties = new TwinCollection();
+                reportedProperties["fanstate"] = fanState.ToString();
+                reportedProperties["humidity"] = desiredHumidity;
+                reportedProperties["temperature"] = desiredTemperature;
+                await s_deviceClient.UpdateReportedPropertiesAsync(reportedProperties);
+
+                greenMessage("\nTwin state reported: " + reportedProperties.ToJson());
+            }
+            catch
+            {
+                redMessage("Failed to update device twin");
+            }
+        }
         private static void Main(string[] args)
         {
             colorMessage("Wine Cellar device app.\n", ConsoleColor.Yellow);
@@ -184,6 +207,14 @@ namespace simulated_device
                     return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
                 }
             }
+
+            // Get the device twin to report the initial desired properties.
+            Twin deviceTwin = s_deviceClient.GetTwinAsync().GetAwaiter().GetResult();
+            greenMessage("Initial twin desired properties: " + deviceTwin.Properties.Desired.ToJson());
+
+            // Set the device twin update callback.
+            s_deviceClient.SetDesiredPropertyUpdateCallbackAsync(OnDesiredPropertyChanged, null).Wait();
         }
+
     }
 }

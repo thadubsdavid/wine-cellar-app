@@ -74,6 +74,10 @@ namespace winecellar_operator
             var runtimeInfo = s_eventHubClient.GetRuntimeInformationAsync().GetAwaiter().GetResult();
             var d2cPartitions = runtimeInfo.PartitionIds;
 
+            // A registry manager is used to access the digital twins.
+            registryManager = RegistryManager.CreateFromConnectionString(s_serviceConnectionString);
+            SetTwinProperties().Wait();
+
             // Create a ServiceClient to communicate with service-facing endpoint on your hub.
             s_serviceClient = ServiceClient.CreateFromConnectionString(s_serviceConnectionString);
             InvokeMethod().GetAwaiter().GetResult();
@@ -131,6 +135,36 @@ namespace winecellar_operator
         private static void redMessage(string text)
         {
             colorMessage(text, ConsoleColor.Red);
+        }
+
+        // Device twins section.
+        private static RegistryManager registryManager;
+
+        private static async Task SetTwinProperties()
+        {
+            var twin = await registryManager.GetTwinAsync("WineCellarId");
+            var patch =
+                @"{
+                tags: {
+                    customerID: 'Customer1',
+                    cellar: 'Cellar1'
+                },
+                properties: {
+                    desired: {
+                        patchId: 'set values',
+                        temperature: '50',
+                        humidity: '85'
+                    }
+                }
+        }";
+            await registryManager.UpdateTwinAsync(twin.DeviceId, patch, twin.ETag);
+
+            var query = registryManager.CreateQuery(
+              "SELECT * FROM devices WHERE tags.cellar = 'Cellar1'", 100);
+            var twinsInCellar1 = await query.GetNextAsTwinAsync();
+            Console.WriteLine("Devices in Cellar1: {0}",
+              string.Join(", ", twinsInCellar1.Select(t => t.DeviceId)));
+
         }
     }
 }
