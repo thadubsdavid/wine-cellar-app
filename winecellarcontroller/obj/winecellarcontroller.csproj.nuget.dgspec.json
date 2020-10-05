@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj": {}
+    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellarcontroller\\winecellarcontroller.csproj": {}
   },
   "projects": {
-    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj": {
+    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellarcontroller\\winecellarcontroller.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj",
-        "projectName": "winecellardevice",
-        "projectPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj",
+        "projectUniqueName": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellarcontroller\\winecellarcontroller.csproj",
+        "projectName": "winecellarcontroller",
+        "projectPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellarcontroller\\winecellarcontroller.csproj",
         "packagesPath": "C:\\Users\\1000E0138\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\obj\\",
+        "outputPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellarcontroller\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\1000E0138\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -36,17 +36,17 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "Microsoft.Azure.Devices.Client": {
+            "Microsoft.Azure.Devices": {
               "target": "Package",
-              "version": "[1.31.1, )"
+              "version": "[1.27.1, )"
             },
-            "Microsoft.Azure.Devices.Shared": {
+            "Microsoft.Azure.EventHubs": {
               "target": "Package",
-              "version": "[1.25.1, )"
+              "version": "[4.3.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.3, )"
+              "version": "[*, )"
             }
           },
           "imports": [

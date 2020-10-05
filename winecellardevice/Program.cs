@@ -137,7 +137,7 @@ namespace simulated_device
         }
         private static void Main(string[] args)
         {
-            colorMessage("Cheese Cave device app.\n", ConsoleColor.Yellow);
+            colorMessage("Wine Cellar device app.\n", ConsoleColor.Yellow);
 
             // Connect to the IoT hub using the MQTT protocol.
             s_deviceClient = DeviceClient.CreateFromConnectionString(s_deviceConnectionString, TransportType.Mqtt);
