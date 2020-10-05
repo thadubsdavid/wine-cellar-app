@@ -144,6 +144,46 @@ namespace simulated_device
 
             SendDeviceToCloudMessagesAsync();
             Console.ReadLine();
+
+            // Create a handler for the direct method call
+            s_deviceClient.SetMethodHandlerAsync("SetFanState", SetFanState, null).Wait();
         }
+
+        // Handle the direct method call
+    private static Task<MethodResponse> SetFanState(MethodRequest methodRequest, object userContext)
+    {
+        if (fanState == stateEnum.failed)
+        {
+            // Acknowledge the direct method call with a 400 error message.
+            string result = "{\"result\":\"Fan failed\"}";
+            redMessage("Direct method failed: " + result);
+            return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+        }
+        else
+        {
+            try
+            {
+                var data = Encoding.UTF8.GetString(methodRequest.Data);
+
+                // Remove quotes from data.
+                data = data.Replace("\"", "");
+
+                // Parse the payload, and trigger an exception if it's not valid.
+                fanState = (stateEnum)Enum.Parse(typeof(stateEnum), data);
+                greenMessage("Fan set to: " + data);
+
+                // Acknowledge the direct method call with a 200 success message.
+                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+            }
+            catch
+            {
+                // Acknowledge the direct method call with a 400 error message.
+                string result = "{\"result\":\"Invalid parameter\"}";
+                redMessage("Direct method failed: " + result);
+                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+            }
+        }
+    }
     }
 }

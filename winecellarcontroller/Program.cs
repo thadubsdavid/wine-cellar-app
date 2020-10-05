@@ -23,10 +23,11 @@ namespace winecellar_operator
         private readonly static string s_eventHubsCompatiblePath = "witzenmannhub02";
         private readonly static string s_iotHubSasKey = "NYY8uvYItlGQvrEFlZd731Cg9w1tNO8wDuCK63tMjJc=";
         private readonly static string s_iotHubSasKeyName = "service";
+        private static ServiceClient s_serviceClient;
         private static EventHubClient s_eventHubClient;
 
         // Connection string for your IoT Hub.
-        private readonly static string s_serviceConnectionString = "<your service connection string>";
+        private readonly static string s_serviceConnectionString = "HostName=WitzenmannHub02.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=ny4WpS09R4RIfMaMZ3vGvG9ft6+dxfOM0SG/j4dUVM0=";
 
         // Asynchronously create a PartitionReceiver for a partition and then start reading any messages sent from the simulated client.
         private static async Task ReceiveMessagesFromDeviceAsync(string partition)
