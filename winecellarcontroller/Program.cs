@@ -11,7 +11,7 @@ using Microsoft.Azure.EventHubs;
 using Microsoft.Azure.Devices;
 using Newtonsoft.Json;
 
-namespace cheesecave_operator
+namespace winecellar_operator
 {
     class ReadDeviceToCloudMessages
     {
