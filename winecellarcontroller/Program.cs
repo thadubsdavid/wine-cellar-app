@@ -74,6 +74,10 @@ namespace winecellar_operator
             var runtimeInfo = s_eventHubClient.GetRuntimeInformationAsync().GetAwaiter().GetResult();
             var d2cPartitions = runtimeInfo.PartitionIds;
 
+            // Create a ServiceClient to communicate with service-facing endpoint on your hub.
+            s_serviceClient = ServiceClient.CreateFromConnectionString(s_serviceConnectionString);
+            InvokeMethod().GetAwaiter().GetResult();
+
             // Create receivers to listen for messages.
             var tasks = new List<Task>();
             foreach (string partition in d2cPartitions)
@@ -83,6 +87,34 @@ namespace winecellar_operator
 
             // Wait for all the PartitionReceivers to finish.
             Task.WaitAll(tasks.ToArray());
+        }
+
+        // Handle invoking a direct method.
+        private static async Task InvokeMethod()
+        {
+            try
+            {
+                var methodInvocation = new CloudToDeviceMethod("SetFanState") { ResponseTimeout = TimeSpan.FromSeconds(30) };
+                string payload = JsonConvert.SerializeObject("on");
+
+                methodInvocation.SetPayloadJson(payload);
+
+                // Invoke the direct method asynchronously and get the response from the simulated device.
+                var response = await s_serviceClient.InvokeDeviceMethodAsync("WineCellarId", methodInvocation);
+
+                if (response.Status == 200)
+                {
+                    greenMessage("Direct method invoked: " + response.GetPayloadAsJson());
+                }
+                else
+                {
+                    redMessage("Direct method failed: " + response.GetPayloadAsJson());
+                }
+            }
+            catch
+            {
+                redMessage("Direct method failed: timed-out");
+            }
         }
 
         private static void colorMessage(string text, ConsoleColor clr)

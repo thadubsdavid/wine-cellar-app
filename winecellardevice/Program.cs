@@ -12,7 +12,7 @@ namespace simulated_device
 {
     class SimulatedDevice
     {
-       // Global constants.
+        // Global constants.
         const float ambientTemperature = 70;                    // Ambient temperature of a southern cave, in degrees F.
         const double ambientHumidity = 99;                      // Ambient humidity in relative percentage of air saturation.
         const double desiredTempLimit = 5;                      // Acceptable range above or below the desired temp, in degrees F.
@@ -150,40 +150,40 @@ namespace simulated_device
         }
 
         // Handle the direct method call
-    private static Task<MethodResponse> SetFanState(MethodRequest methodRequest, object userContext)
-    {
-        if (fanState == stateEnum.failed)
+        private static Task<MethodResponse> SetFanState(MethodRequest methodRequest, object userContext)
         {
-            // Acknowledge the direct method call with a 400 error message.
-            string result = "{\"result\":\"Fan failed\"}";
-            redMessage("Direct method failed: " + result);
-            return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
-        }
-        else
-        {
-            try
-            {
-                var data = Encoding.UTF8.GetString(methodRequest.Data);
-
-                // Remove quotes from data.
-                data = data.Replace("\"", "");
-
-                // Parse the payload, and trigger an exception if it's not valid.
-                fanState = (stateEnum)Enum.Parse(typeof(stateEnum), data);
-                greenMessage("Fan set to: " + data);
-
-                // Acknowledge the direct method call with a 200 success message.
-                string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
-                return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
-            }
-            catch
+            if (fanState == stateEnum.failed)
             {
                 // Acknowledge the direct method call with a 400 error message.
-                string result = "{\"result\":\"Invalid parameter\"}";
+                string result = "{\"result\":\"Fan failed\"}";
                 redMessage("Direct method failed: " + result);
                 return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
             }
+            else
+            {
+                try
+                {
+                    var data = Encoding.UTF8.GetString(methodRequest.Data);
+
+                    // Remove quotes from data.
+                    data = data.Replace("\"", "");
+
+                    // Parse the payload, and trigger an exception if it's not valid.
+                    fanState = (stateEnum)Enum.Parse(typeof(stateEnum), data);
+                    greenMessage("Fan set to: " + data);
+
+                    // Acknowledge the direct method call with a 200 success message.
+                    string result = "{\"result\":\"Executed direct method: " + methodRequest.Name + "\"}";
+                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+                }
+                catch
+                {
+                    // Acknowledge the direct method call with a 400 error message.
+                    string result = "{\"result\":\"Invalid parameter\"}";
+                    redMessage("Direct method failed: " + result);
+                    return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+                }
+            }
         }
-    }
     }
 }
