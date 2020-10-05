@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj",
+        "projectName": "winecellardevice",
+        "projectPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\winecellardevice.csproj",
+        "packagesPath": "C:\\Users\\1000E0138\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\1000E0138\\Lokal\\development\\wine-cellar-app\\winecellardevice\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\1000E0138\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.Azure.Devices.Client": {
+              "target": "Package",
+              "version": "[1.31.1, )"
+            },
+            "Microsoft.Azure.Devices.Shared": {
+              "target": "Package",
+              "version": "[1.25.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[*, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
